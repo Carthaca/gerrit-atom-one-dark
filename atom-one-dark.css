@@ -1,0 +1,80 @@
+/* 1. Override Gerrit's main Background and Text variables */
+:host {
+  /* Main Background (Atom Dark Grey) */
+  --gr-diff-background-color: #282c34 !important;
+
+  /* Default Text Color */
+  color: #abb2bf !important;
+
+  /* Selection Color */
+  --gr-diff-selection-background-color: #3e4451 !important;
+}
+
+/* 2. Force the content cells to match the background */
+.content {
+  background-color: #282c34 !important;
+  color: #abb2bf !important;
+}
+
+/* 3. Atom One Dark Syntax Highlighting Mapped to Gerrit Classes */
+
+/* Comments */
+.gr-syntax-comment,
+.gr-syntax-quote {
+  color: #5c6370 !important;
+  font-style: italic !important;
+}
+
+/* Keywords (purple) */
+.gr-syntax-keyword,
+.gr-syntax-selector-tag,
+.gr-syntax-built_in,
+.gr-syntax-name.gr-syntax-tag {
+  color: #c678dd !important;
+}
+
+/* Variables / Attributes (red/orange) */
+.gr-syntax-variable,
+.gr-syntax-template-variable,
+.gr-syntax-attribute,
+.gr-syntax-tag,
+.gr-syntax-name,
+.gr-syntax-regexp,
+.gr-syntax-link {
+  color: #e06c75 !important;
+}
+
+/* Strings (green) */
+.gr-syntax-string,
+.gr-syntax-symbol,
+.gr-syntax-bullet,
+.gr-syntax-addition {
+  color: #98c379 !important;
+}
+
+/* Titles / Sections (blue) */
+.gr-syntax-title,
+.gr-syntax-section {
+  color: #61aeee !important;
+}
+
+/* Types (yellow/gold) */
+.gr-syntax-type,
+.gr-syntax-class .gr-syntax-title {
+  color: #e5c07b !important;
+}
+
+/* Meta / Preprocessor */
+.gr-syntax-meta {
+  color: #61aeee !important;
+}
+
+/* Emphasis */
+.gr-syntax-emphasis {
+  font-style: italic !important;
+}
+
+/* Strong */
+.gr-syntax-strong {
+  font-weight: bold !important;
+}
