@@ -1,32 +1,45 @@
-# Gerrit Atom One Dark 🚀
+# Gerrit Atom One Dark
 
-A Chrome Extension that brings the **Atom One Dark** syntax theme to Gerrit code reviews (specifically tested on `review.opendev.org`).
+A high-performance, high-specificity syntax highlighting override for Gerrit. This project brings the **Atom One Dark** aesthetic to the code review process while solving the unique challenges posed by Gerrit's modern architecture.
 
-## The Problem (The "Why")
-Gerrit's modern "PolyGerrit" UI is notoriously difficult to theme for two main reasons:
+## 🚀 Key Features
 
-1. **Shadow DOM Encapsulation:** The code diffs are hidden inside nested Shadow DOM layers. Standard CSS injection cannot "see" or style the code without explicitly piercing these boundaries.
-2. **Extreme Token Fragmentation:** Unlike standard highlighters that wrap a variable in a single `<span>`, Gerrit's rendering engine often splits a single word or f-string into multiple, separate HTML elements. For example:
-   - `f"hello {name}"` might be split into 11+ different spans.
-   - Braces `{}` are often merged with the surrounding string text (e.g., `}"`), making it impossible to color them differently using just CSS.
+* **True Atom One Dark Palette**: Accurately mapped colors for keywords, strings, comments, and variables.
+* **The "Surgical" F-String Fix**: Solves the common Gerrit issue where Python f-strings are rendered as a single green block. This script identifies variables inside f-strings (`f"{variable}"`) and forces them to Atom Red.
+* **Shadow DOM Piercing**: Recursively injects styles into every nested Shadow Root to ensure styles reach "lazy-loaded" diff chunks and Lit-rendered elements.
+* **Performance Optimized**:
+    * **Debounced Injection**: Prevents browser lag by waiting for a "quiet period" before processing the DOM.
+    * **Idle Scheduling**: Uses `requestIdleCallback` to run heavy styling tasks without interrupting smooth scrolling.
+* **Visual Feedback**: Includes a pulsing Atom-purple ring in the bottom-right corner that appears whenever the script is actively calculating syntax logic.
 
-## The Solution
-This extension doesn't just inject a stylesheet; it runs a **character-level surgical engine**:
-- **Shadow Piercing:** Recursively traverses the `gr-app` and `gr-diff` shadow roots to find hidden code blocks.
-- **Character Mapping:** It reconstructs the text content of every line, identifies Python f-string variables via Regex, and maps those character offsets back to the fragmented DOM.
-- **Sub-Atomic Injector:** If a span contains mixed content (like a brace and a quote), the extension splits that span into individual character nodes to apply the correct Atom One Dark hex codes.
+## 🎨 Syntax Mapping
 
-## Created with Gemini 🤖
-This entire extension was built through an iterative, collaborative process with **Gemini**.
-- **The Journey:** We went through several architectural iterations—moving from simple CSS injection to Shadow DOM adopted stylesheets, and finally to a custom JavaScript character-mapping engine to solve the f-string fragmentation issue.
-- **AI-Human Collaboration:** The logic for "surgical" span splitting and the recursive heartbeat that handles Gerrit's lazy-loading were developed through real-time debugging and DOM analysis provided by the user.
+| Token | Color | Hex Code |
+| :--- | :--- | :--- |
+| **Background** | Slate | `#282c34` |
+| **Text** | Silver | `#abb2bf` |
+| **Keywords** | Purple | `#c678dd` |
+| **Strings** | Green | `#98c379` |
+| **F-String Vars** | Red | `#e06c75` |
+| **Comments** | Gray | `#7f848e` |
+| **Add Line** | Deep Green | `#2d3f34` |
+| **Remove Line** | Deep Red | `#4b3136` |
 
-## Installation (Manual)
-1. Download this repository as a ZIP and extract it.
-2. Open Chrome and navigate to `chrome://extensions`.
-3. Enable **Developer mode** (top right).
-4. Click **Load unpacked** and select the extension folder.
-5. Refresh your Gerrit page.
+## 🛠 Installation
+
+1.  **Requirement**: A browser extension that supports custom scripts (e.g., Tampermonkey, Violentmonkey) or a local unpacked extension.
+2.  **Script**: Copy the contents of `content.js` into your script manager.
+3.  **Match Pattern**: Ensure your script is configured to run on your Gerrit domain, for example:
+    ```javascript
+    // @match [https://gerrit.yourcompany.com/](https://gerrit.yourcompany.com/)*
+    ```
+
+## 🧠 Technical Overview: Fragmented Tokenization
+Modern Gerrit instances fragment code into many tiny `<hl>` tags, often separating the `f` prefix from the `{` and the internal `variable_name`. This script uses **CSS Sibling Selectors (`~`)** and specific token class targeting (`tk-text-*`) to identify variables that specifically follow an `f` token, ensuring that docstrings and regular strings remain correctly green.
+
+## 🔄 Status Indicator
+* **Purple Spinner Visible**: The script is currently calculating syntax logic or re-applying styles after a scroll/render event.
+* **Hidden**: The theme is fully applied and the browser is idle.
 
 ## License
-Apache
+Apache License 2.0
